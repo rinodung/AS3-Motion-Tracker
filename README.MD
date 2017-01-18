@@ -1,12 +1,13 @@
 ===================
 AS3 MOTION TRACKER
 ===================
-
+http://blog.soulwire.co.uk/code/actionscript-3/webcam-motion-detection-tracking
+http://blog.soulwire.co.uk/code/actionscript-3/extract-average-colours-from-bitmapdata
 
 For those of you without access to a webcam (and as an example of a practical use for this class) here is a short video demonstrating the program I wrote for the installation piece.
 
 
-End of update
+## End of update
 
 Webcam required to view the demo (obviously…)
 
@@ -22,14 +23,16 @@ The method I used in the end was much lighter, and providing the parameters coul
 
 ## Here’s how it works
 
-After the camera object is set up, it is passed to a MotionTracker class I wrote, which extends the Point object. The MotionTracker class contains two BitmapData objects; one representing the current data from the webcam, the other is used to store the previous frame.
-When the update method is called, the new frame is drawn on top of the previous using the difference filter.
-The result then has a ColorMatrixFilter applied to it, increasing the contrast of the image and dropping the darker areas (with less movement) further into the background.
-A blur filter is then applied in order to further reduce noise and to form blobs from areas where more movement is occurring.
-The threshold method is then called in the resulting BitmapData, effectively causing all near black pixels to be ignored and all light pixels (where movement has been detected) to be set to a certain colour.
+- After the camera object is set up, it is passed to a MotionTracker class I wrote, which extends the Point object. 
+- The MotionTracker class contains two BitmapData objects; one representing the current data from the webcam, the other is used to store the previous frame.
+- When the update method is called, the new frame is drawn on top of the previous using the difference filter.
+- The result then has a ColorMatrixFilter applied to it, increasing the contrast of the image and dropping the darker areas (with less movement) further into the background.
+- A blur filter is then applied in order to further reduce noise and to form blobs from areas where more movement is occurring.
+- The threshold method is then called in the resulting BitmapData, effectively causing all near black pixels to be ignored and all light pixels (where movement has been detected) to be set to a certain colour.
+
 So that takes care of the motion detection, but what about the tracking?
 
-First we call the getColorBoundsRect method on the BitmapData object, which gives us a Rectangle object representing the area occupied by pixels of the colour we used when applying the threshold filter.
-If the rectangle has an area larger than a specified constant, then sufficient movement is occurring and it can be tracked (choosing to ignore small areas of movement helps to eradicate noise caused by background and other interferences).
-We then find the centre point of this rectangle, and then move the x and y position of the MotionTracker instance to these coordinates, applying some gentle easing to give more continuity to the movement.
-I will post some source code once the MotionTracker class has been refined, and once I have build a nicer API so that, amongst other things, you can create your own UI for tweaking parameters at runtime; a useful feature if you have requirements such as mine where getting the most accuracy from a particular environment is important.
+- First we call the getColorBoundsRect method on the BitmapData object, which gives us a Rectangle object representing the area occupied by pixels of the colour we used when applying the threshold filter.
+- If the rectangle has an area larger than a specified constant, then sufficient movement is occurring and it can be tracked (choosing to ignore small areas of movement helps to eradicate noise caused by background and other interferences).
+- We then find the centre point of this rectangle, and then move the x and y position of the MotionTracker instance to these coordinates, applying some gentle easing to give more continuity to the movement.
+- I will post some source code once the MotionTracker class has been refined, and once I have build a nicer API so that, amongst other things, you can create your own UI for tweaking parameters at runtime; a useful feature if you have requirements such as mine where getting the most accuracy from a particular environment is important.
